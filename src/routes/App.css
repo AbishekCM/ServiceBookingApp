@@ -1,0 +1,35 @@
+.app-container {
+  display: flex;
+}
+
+.content {
+  width: 100%;
+}
+
+.sidebar {
+  min-height: 800px;
+}
+
+.post-card {
+  margin: 20px 50px;
+}
+
+.hashtag {
+  margin: 0px 4px;
+}
+
+.create-post {
+  width: 50%;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+
+.form-labels {
+  font-weight: 800;
+}
+
+.icos {
+  color: red;
+  cursor: pointer;
+  padding: 5px;
+}
