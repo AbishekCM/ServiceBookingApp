@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useRef } from "react";
 import { PostList } from "../store/posts-list-store";
 import { useNavigate } from "react-router-dom";
@@ -6,32 +7,41 @@ function CreatePost() {
   const { addPost } = useContext(PostList);
   const navigate = useNavigate();
 
+  const serviceNameElement=useRef();
+  const availabilityElement=useRef();
+  const serviceRateElement = useRef();
   const userNameElement = useRef();
-  const postTitleElement = useRef();
-  const postBodyElement = useRef();
-  const postTagsElement = useRef();
+  const serviceDescriptionElement = useRef();
+  const serviceTagsElement = useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
 
     const userName = userNameElement.current.value;
-    const postTitle = postTitleElement.current.value;
-    const postBody = postBodyElement.current.value;
-    const postTags = postTagsElement.current.value.split(",");
+    const serviceTitle = serviceRateElement.current.value;
+    const userAvailability= availabilityElement.current.value;
+    const serviceRate=serviceRateElement.current.value;
 
-    addPost(userName, postTitle, postBody, postTags);
+    const serviceDescription = serviceDescriptionElement.current.value;
+    const serviceTags = serviceTagsElement.current.value.split(",");
 
-    userNameElement.current.value = "";
-    postTitleElement.current.value = "";
-    postBodyElement.current.value = "";
-    postTagsElement.current.value = "";
+    console.log(serviceDescription);
+
+    addPost(userName,serviceTitle,userAvailability,serviceDescription,serviceRate,serviceTags);
+
+    /* userNameElement.current.value = "";
+    serviceRateElement.current.value = "";
+    serviceDescriptionElement.current.value = "";
+    serviceTagsElement.current.value = "";
+    userAvailability.current.value="";
+    serviceNameElement.current.value=""; */
 
     navigate("/");
   }
   return (
     <form className="create-post" onSubmit={handleSubmit}>
       <h1 style={{ marginBottom: "30px", color: "blue" }}>
-        Create Your Post...
+        Post Your Service...
       </h1>
       <div className="mb-3">
         <label htmlFor="userName" className="form-label form-labels">
@@ -48,29 +58,59 @@ function CreatePost() {
       </div>
 
       <div className="mb-3">
-        <label htmlFor="title" className="form-label form-labels">
-          Post Title
+        <label htmlFor="serviceName" className="form-label form-labels">
+          Service Name
         </label>
         <input
-          ref={postTitleElement}
+          ref={serviceNameElement}
           type="text"
           className="form-control"
-          id="title"
-          placeholder="Whats Up!..."
+          id="serviceName"
+          placeholder="Enter your service Name..."
           required
         />
       </div>
 
       <div className="mb-3">
-        <label htmlFor="body" className="form-label form-labels">
-          Description
+        <label htmlFor="userAvailability" className="form-label form-labels">
+          User Availability
+        </label>
+        <input
+          ref={availabilityElement}
+          type="date"
+          className="form-control"
+          id="userAvailability"
+          placeholder="Enter your User Name..."
+          required
+        />
+      </div>
+
+      
+
+      <div className="mb-3">
+        <label htmlFor="serviceDescription" className="form-label form-labels">
+          Service Description
         </label>
         <textarea
-          ref={postBodyElement}
+          ref={serviceDescriptionElement}
           type="text"
           className="form-control"
-          id="body"
-          placeholder="Describe your post..."
+          id="serviceDescription"
+          placeholder="Describe your service..."
+          required
+        />
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="title" className="form-label form-labels">
+          Pricing
+        </label>
+        <input
+          ref={serviceRateElement}
+          type="number"
+          className="form-control"
+          id="serviceRate"
+          placeholder="Hourly rate in €.."
           required
         />
       </div>
@@ -80,17 +120,17 @@ function CreatePost() {
           Tags
         </label>
         <input
-          ref={postTagsElement}
+          ref={serviceTagsElement}
           type="text"
           className="form-control"
           id="tags"
-          placeholder="Enter tags..."
+          placeholder="Enter related tags seperated with ,"
           required
         />
       </div>
 
       <button type="submit" className="btn btn-primary">
-        Post
+        Create a Service
       </button>
     </form>
   );

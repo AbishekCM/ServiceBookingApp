@@ -17,7 +17,7 @@ function Sidebar() {
         <svg className="bi pe-none me-2" width="40" height="32">
           <use xlinkHref="#bootstrap"></use>
         </svg>
-        <span className="fs-4">Sidebar</span>
+        <span className="fs-4">Explore</span>
       </a>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">
@@ -26,7 +26,7 @@ function Sidebar() {
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#home"></use>
             </svg>
-            Home
+            Services
           </Link>
         </li>
         <li>
@@ -34,12 +34,12 @@ function Sidebar() {
             <svg className="bi pe-none me-2" width="16" height="16">
               <use xlinkHref="#speedometer2"></use>
             </svg>
-            Create Post
+            Create
           </Link>
         </li>
       </ul>
       <hr />
-      <div className="dropdown" bis_skin_checked="1">
+      {/* <div className="dropdown" bis_skin_checked="1">
         <a
           href="#"
           className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
@@ -80,7 +80,7 @@ function Sidebar() {
             </a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

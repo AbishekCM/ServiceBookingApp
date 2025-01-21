@@ -2,7 +2,7 @@
 function Header(){
   return (
     <header className="p-3 text-bg-dark">
-        <div className="container" bis_skin_checked="1">
+       {/*  <div className="container" bis_skin_checked="1">
           <div
             className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
             bis_skin_checked="1"
@@ -71,7 +71,7 @@ function Header(){
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </header>
   );
 }

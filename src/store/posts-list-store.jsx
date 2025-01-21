@@ -1,7 +1,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { createContext, useCallback, useMemo, useReducer } from "react";
+import React, { createContext, useCallback, useMemo, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 export const PostList = createContext({
   postList: [],
@@ -16,17 +16,20 @@ const postListReducer = (currentPostList, action) => {
     newPosts = currentPostList.filter(
       (post) => post.postId !== action.payload.postId
     );
-    console.log(newPosts);
+    
   } else if (action.type === "ADD_POST") {
     const newPost = {
       postId: action.payload.postId,
       userName: action.payload.userName,
-      postTitle: action.payload.postTitle,
-      postBody: action.payload.postBody,
-      postTags: action.payload.postTags,
+      serviceTitle: action.payload.serviceTitle,
+      userAvailability:action.payload.userAvailability,
+      serviceDescription: action.payload.serviceDescription,
+      pricing:action.payload.pricing,
+      serviceTags: action.payload.serviceTags,
       postReactions: action.payload.postReactions,
       createdAt: action.payload.createdAt,
     };
+    console.log(newPost);
 
     newPosts = [newPost, ...currentPostList];
   } else if (action.type === "EDIT_POST") {
@@ -57,15 +60,17 @@ const PostListProvider = ({ children }) => {
     DEFAULT_POST_LIST
   );
 
-  const addPost = (userName, postTitle, postBody, postTags) => {
+  const addPost = (userName, serviceTitle, userAvailability, serviceDescription,pricing,serviceTags) => {
     const addPostAction = {
       type: "ADD_POST",
       payload: {
         postId: uuidv4(),
         userName,
-        postTitle,
-        postBody,
-        postTags,
+        serviceTitle,
+        userAvailability,
+        serviceDescription,
+        pricing,
+        serviceTags,
         postReactions: 0,
         createdAt: new Date().toLocaleString(),
       },
@@ -123,24 +128,31 @@ const PostListProvider = ({ children }) => {
 
 const DEFAULT_POST_LIST = [
   {
-    postId: "1",
-    postTitle: "Going to Helsinki",
-    postBody: "vacation from work",
-    postReactions: 2,
-    userName: "user-08",
-    postTags: ["vacation", "finland", "helsinki"],
-    createdAt: "1/7/2025, 1:35:06 AM",
+    postId:'1',
+    userName:'Abishek',
+    serviceTitle:'web Development with React/Node',
+    userAvailability:'02/02/2025',
+    serviceDescription:'coding in react and node js',
+    pricing:30,
+    serviceTags:['react','node','web development'],
+    createdAt: "1/7/2025, 1:40:06 AM",
+    postReactions: 3,
+
   },
 
   {
-    postId: "2",
-    postTitle: "Learning React",
-    postBody: "from youtube, sample projects",
-    postReactions: 3,
-    userName: "user-09",
-    postTags: ["react", "learning", "tutorial"],
+    postId:'2',
+    userName:'Sanna',
+    serviceTitle:'Babysitting',
+    userAvailability:'02/03/2025',
+    serviceDescription:'Babysitting service for children, experienced and certified',
+    pricing:20,
+    serviceTags:['babysitting','caregiver','children'],
     createdAt: "1/7/2025, 1:40:06 AM",
+    postReactions: 3,
+
   },
+
 ];
 
 export default PostListProvider;
