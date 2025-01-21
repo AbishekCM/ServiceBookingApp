@@ -1,14 +1,14 @@
 {
   
   "name": "social-media",
-  "homepage": "https://abishekcm.github.io/ServiceBookingApp",
+  "homepage": "https://AbishekCM.github.io/ServiceBookingApp/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     
     "predeploy":"npm run build",
-    "deploy":"npm gh-pages -d dist",
+    "deploy":"gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
