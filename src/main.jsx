@@ -9,12 +9,12 @@ import EditPost from "./components/EditPost.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/ServiceBookingApp",
     element: <App></App>,
     children: [
-      { path: "/", element: <PostList></PostList> },
-      { path: "/create-post", element: <CreatePost></CreatePost> },
-      { path: "/edit-post", element: <EditPost></EditPost> },
+      { path: "/ServiceBookingApp", element: <PostList></PostList> },
+      { path: "ServiceBookingApp/create-post", element: <CreatePost></CreatePost> },
+      { path: "ServiceBookingApp/edit-post", element: <EditPost></EditPost> },
     ],
   },
 ]);
