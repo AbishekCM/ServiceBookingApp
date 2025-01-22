@@ -4,18 +4,19 @@
 import { RiDeleteBinFill } from "react-icons/ri";
 import { AiOutlineLike } from "react-icons/ai";
 import { MdEditSquare } from "react-icons/md";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { ImStarFull } from "react-icons/im";
 import { PostList } from "../store/posts-list-store";
 import PopupForm from "./ReservationForm";
+import ReviewPopup from "./ReviewPopup";
 
 function Post({ post }) {
-  
-  const { deletePost } = useContext(PostList);
+  const { deletePost, postList } = useContext(PostList);
 
   const [postReactions, setPostReactions] = useState(post.postReactions);
   const navigate = useNavigate();
+  const [stars, setStars] = useState(1);
 
   function handleClickReaction() {
     setPostReactions(postReactions + 1);
@@ -27,7 +28,18 @@ function Post({ post }) {
     });
   }
 
+  useEffect(() => { 
+    starsAverage(); 
+  }, [post.reviews.length]);
   
+  function starsAverage(){
+    let sum=0;
+    post.reviews.map((reviews, index) => (
+      console.log(reviews.stars),
+      sum+=Number(reviews.stars)
+    ))
+    setStars(Math.ceil(sum/post.reviews.length));
+  }
 
   return (
     <div className="card post-card" style={{ width: "30rem" }}>
@@ -41,7 +53,9 @@ function Post({ post }) {
         <hr />
         <label htmlFor="pricing">Hourly Rate: {post.pricing}€/h</label>
         <br />
-        <label htmlFor="pricing">Provider Availability: {post.userAvailability}</label>
+        <label htmlFor="pricing">
+          Provider Availability: {post.userAvailability}
+        </label>
         <br />
         Service Tags#:
         {post.serviceTags.map((tag, index) => (
@@ -49,6 +63,22 @@ function Post({ post }) {
             key={index}
             className="badge text-bg-primary hashtag"
           >{`+${tag}+`}</span>
+        ))}
+        <hr />
+        <h5>Reviews-{stars}<ImStarFull />
+          </h5>
+        {post.reviews.map((reviews, index) => (
+          <div key={index}>
+            <hr />
+            <label htmlFor="username">User: {reviews.user}</label>
+            <br />
+            <label>Review: "{reviews.description}"</label>
+            <p>
+              Rating: {reviews.stars}
+              <ImStarFull />
+            </p>
+            <hr />
+          </div>
         ))}
         <hr />
         <button
@@ -70,8 +100,9 @@ function Post({ post }) {
         </span>
         <br />
         <br />
-        
         <PopupForm post={post}></PopupForm>
+        <br />
+        <ReviewPopup post={post}></ReviewPopup>
       </div>
     </div>
   );

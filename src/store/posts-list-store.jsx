@@ -5,9 +5,11 @@ import React, { createContext, useCallback, useMemo, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 export const PostList = createContext({
   postList: [],
+  setPostList: () => {},
   addPost: () => {},
   deletePost: () => {},
   editPost: () => {},
+  addReviews: () => {},
 });
 
 const postListReducer = (currentPostList, action) => {
@@ -16,20 +18,18 @@ const postListReducer = (currentPostList, action) => {
     newPosts = currentPostList.filter(
       (post) => post.postId !== action.payload.postId
     );
-    
   } else if (action.type === "ADD_POST") {
     const newPost = {
       postId: action.payload.postId,
       userName: action.payload.userName,
       serviceTitle: action.payload.serviceTitle,
-      userAvailability:action.payload.userAvailability,
+      userAvailability: action.payload.userAvailability,
       serviceDescription: action.payload.serviceDescription,
-      pricing:action.payload.pricing,
+      pricing: action.payload.pricing,
       serviceTags: action.payload.serviceTags,
       postReactions: action.payload.postReactions,
       createdAt: action.payload.createdAt,
     };
-    console.log(newPost);
 
     newPosts = [newPost, ...currentPostList];
   } else if (action.type === "EDIT_POST") {
@@ -49,6 +49,20 @@ const postListReducer = (currentPostList, action) => {
       postBody: action.payload.updates.body,
       postTags: action.payload.updates.tags,
     };
+  } else if (action.type === "ADD_REVIEW") {
+    
+
+    const newPost = currentPostList.map((post) => {
+      if (post.postId === action.payload.postId) {
+        return {
+          ...post,
+          reviews: [...post.reviews, action.payload.review],
+        };
+      }
+      return post;
+    });
+
+    newPosts = newPost;
   }
 
   return newPosts;
@@ -60,7 +74,14 @@ const PostListProvider = ({ children }) => {
     DEFAULT_POST_LIST
   );
 
-  const addPost = (userName, serviceTitle, userAvailability, serviceDescription,pricing,serviceTags) => {
+  const addPost = (
+    userName,
+    serviceTitle,
+    userAvailability,
+    serviceDescription,
+    pricing,
+    serviceTags
+  ) => {
     const addPostAction = {
       type: "ADD_POST",
       payload: {
@@ -106,6 +127,18 @@ const PostListProvider = ({ children }) => {
     [dispatchPostList]
   );
 
+  const addReviews = (review, postId) => {
+    const addReviewAction = {
+      type: "ADD_REVIEW",
+      payload: {
+        review,
+        postId,
+      },
+    };
+
+    dispatchPostList(addReviewAction);
+  };
+
   /* const testArray=[1,3,2,4,5];
   const sortedArray=useMemo(()=>{
     
@@ -119,6 +152,7 @@ const PostListProvider = ({ children }) => {
         addPost: addPost,
         deletePost: deletePost,
         editPost: editPost,
+        addReviews: addReviews,
       }}
     >
       {children}
@@ -128,31 +162,45 @@ const PostListProvider = ({ children }) => {
 
 const DEFAULT_POST_LIST = [
   {
-    postId:'1',
-    userName:'Abishek',
-    serviceTitle:'web Development with React/Node',
-    userAvailability:'02/02/2025',
-    serviceDescription:'coding in react and node js',
-    pricing:30,
-    serviceTags:['react','node','web development'],
+    postId: "1",
+    userName: "Abishek",
+    serviceTitle: "Web Development with React/Node",
+    userAvailability: "02/02/2025",
+    serviceDescription: "coding in react and node js",
+    pricing: 30,
+    serviceTags: ["react", "node", "web development"],
     createdAt: "1/7/2025, 1:40:06 AM",
     postReactions: 3,
-
+    reviews: [
+      {
+        user: "Antti",
+        email: "antti@hmail.com",
+        description: "Good service and professional",
+        stars: 4,
+      },
+    ],
   },
 
   {
-    postId:'2',
-    userName:'Sanna',
-    serviceTitle:'Babysitting',
-    userAvailability:'02/03/2025',
-    serviceDescription:'Babysitting service for children, experienced and certified',
-    pricing:20,
-    serviceTags:['babysitting','caregiver','children'],
+    postId: "2",
+    userName: "Sanna",
+    serviceTitle: "Babysitting",
+    userAvailability: "02/03/2025",
+    serviceDescription:
+      "Babysitting service for children, experienced and certified",
+    pricing: 20,
+    serviceTags: ["babysitting", "caregiver", "children"],
     createdAt: "1/7/2025, 1:40:06 AM",
     postReactions: 3,
-
+    reviews: [
+      {
+        user: "Stella",
+        email: "stella@hotmail.com",
+        description: "non-coperative babysitter",
+        stars: 2,
+      },
+    ],
   },
-
 ];
 
 export default PostListProvider;
